@@ -1,157 +1,183 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, ShoppingBag, Menu, Heart, Star, ShieldCheck, Clock3, Sparkles, ChevronDown, X } from "lucide-react";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-const catalog = [
-  ["Dress To Impress", "15 itens", "a partir de R$ 6,19"],
-  ["Animal Hospital", "4 itens", "a partir de R$ 4,75"],
-  ["Blox Fruits", "67 itens", "a partir de R$ 1,20"],
-  ["Grow a Garden", "236 itens", "a partir de R$ 3,79"],
-  ["Brookhaven", "20 itens", "a partir de R$ 1,44"],
-  ["99 Nights in the Forest", "4 itens", "a partir de R$ 4,75"],
-  ["Welcome to Bloxburg", "20 itens", "a partir de R$ 0,72"],
-];
+const publicHelloKitty = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hello_kitty.jpg";
+const publicRobux = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Robux.jpg";
 
-const reviews = [
-  ["102030akl6", "Adoreiii! Terceira vez que compro aqui já."],
-  ["Tay_rxxx", "O tutorial é bem explicadinho, amei. O site é fofo e organizado."],
-  ["Aayumi_0", "Incrível demais!! Muito lindo e fácil de usar."],
-  ["MyMelodyKawaii_64", "Gostei muito dos preços e da experiência."],
+const packages = [
+  { amount: 400, price: 19.90, label: "400 Robux" },
+  { amount: 800, price: 39.90, label: "800 Robux" },
+  { amount: 1000, price: 48.00, label: "1.000 Robux", featured: true },
+  { amount: 1700, price: 79.90, label: "1.700 Robux" },
+  { amount: 2500, price: 119.90, label: "2.500 Robux" },
+  { amount: 5000, price: 239.90, label: "5.000 Robux" },
 ];
-
-function KittyMark({ small = false }: { small?: boolean }) {
-  return <div className={small ? "kitty-mark small" : "kitty-mark"} aria-label="Hello Kitty">
-    <span className="ear left" /><span className="ear right" />
-    <span className="eye left" /><span className="eye right" />
-    <span className="nose" />
-    <span className="whisker w1" /><span className="whisker w2" />
-    <span className="bow">✦</span>
-  </div>;
-}
 
 function Home() {
+  const [selected, setSelected] = useState(1000);
+  const [custom, setCustom] = useState(1000);
   const [menu, setMenu] = useState(false);
-  const [search, setSearch] = useState("");
-  const [robux, setRobux] = useState(1000);
   const [cart, setCart] = useState(0);
-  const price = useMemo(() => Math.max(4.8, robux * 0.048), [robux]);
 
-  const scroll = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const current = packages.find((item) => item.amount === selected);
+  const customPrice = useMemo(() => Math.max(4.90, custom * 0.048), [custom]);
+
+  const scroll = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenu(false);
+  };
+
+  const addToCart = () => setCart((value) => value + 1);
 
   return (
-    <div className="site">
-      <div className="topbar">♡ Bem-vinda à Hello Kitty Store · pagamentos via PIX</div>
+    <div className="store">
+      <div className="notice-bar">HELLO KITTY STORE</div>
 
-      <header className="header">
-        <button className="mobile-menu" onClick={() => setMenu(!menu)} aria-label="Menu">{menu ? <X /> : <Menu />}</button>
-        <button className="brand" onClick={() => scroll("inicio")}>
-          <KittyMark small />
-          <span><strong>Hello Kitty</strong><em>Store</em></span>
+      <header className="site-header">
+        <button className="wordmark" onClick={() => scroll("inicio")} aria-label="Ir para o início">
+          <span>HELLO KITTY</span>
+          <small>STORE</small>
         </button>
-        <nav className={menu ? "nav open" : "nav"}>
+
+        <button className="mobile-toggle" onClick={() => setMenu(!menu)} aria-label="Abrir menu">
+          MENU
+        </button>
+
+        <nav className={menu ? "main-nav open" : "main-nav"}>
           <button onClick={() => scroll("inicio")}>Início</button>
           <button onClick={() => scroll("robux")}>Robux</button>
-          <button onClick={() => scroll("catalogos")}>Catálogos</button>
-          <button onClick={() => scroll("avaliacoes")}>Avaliações</button>
-          <button onClick={() => scroll("entregas")}>Entregas</button>
-          <button onClick={() => scroll("faq")}>Como funciona</button>
+          <button onClick={() => scroll("comprar")}>Comprar</button>
+          <button onClick={() => scroll("duvidas")}>Dúvidas</button>
         </nav>
-        <div className="header-actions">
-          <div className="search"><Search size={18}/><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar" /></div>
-          <button className="icon-btn" aria-label="Favoritos"><Heart size={19}/></button>
-          <button className="cart-btn" onClick={() => setCart(cart + 1)}><ShoppingBag size={19}/><span>{cart}</span></button>
-        </div>
+
+        <button className="cart" onClick={addToCart}>
+          CARRINHO <span>{cart}</span>
+        </button>
       </header>
 
       <main>
         <section id="inicio" className="hero">
-          <div className="hero-copy">
-            <div className="pill"><Sparkles size={14}/> Sua lojinha kawaii de Roblox</div>
-            <h1>Seu universo Roblox,<br/><span>mais fofo.</span></h1>
-            <p>Compre Robux e itens para seus jogos favoritos com uma experiência simples, delicada e segura.</p>
-            <div className="hero-buttons">
-              <button className="primary" onClick={() => scroll("catalogos")}>Ver catálogos</button>
-              <button className="secondary" onClick={() => scroll("robux")}>Comprar Robux</button>
-            </div>
-            <div className="trust-row">
-              <span><ShieldCheck size={17}/> Compra segura</span>
-              <span><Clock3 size={17}/> Acompanhamento do pedido</span>
-            </div>
+          <div className="hero-background" />
+          <div className="hero-content">
+            <div className="hero-label">HELLO KITTY</div>
+            <h1>SEU ROBUX<br /><span>DO SEU JEITO</span></h1>
+            <p>Escolha a quantidade de Robux e faça seu pedido de forma simples.</p>
+            <button className="hero-button" onClick={() => scroll("robux")}>COMPRAR ROBUX</button>
           </div>
-          <div className="hero-art">
-            <div className="spark s1">✦</div><div className="spark s2">♡</div>
-            <div className="kitty-card"><KittyMark /><div className="ribbon">HELLO KITTY</div></div>
-            <div className="floating-card"><strong>1.000 Robux</strong><span>por R$ 48,00 no PIX</span></div>
+          <div className="hero-character">
+            <img src={publicHelloKitty} alt="Hello Kitty" />
           </div>
         </section>
 
-        <section className="stats">
-          <div><strong>2023</strong><span>No mercado de Roblox</span></div>
-          <div><strong>+10 mil</strong><span>Compras realizadas</span></div>
-          <div><strong>+22 mil</strong><span>Entregas realizadas</span></div>
-          <div><strong>40 mil</strong><span>Membros na comunidade</span></div>
+        <section className="pink-strip">
+          <div>ROBux</div>
+          <strong>COMPRE ROBUX</strong>
+          <div>HELLO KITTY</div>
         </section>
 
-        <section id="robux" className="section robux-section">
-          <div className="section-heading"><div><span className="eyebrow">ROBux VIA LINK</span><h2>A quantidade exata<br/>que você quer</h2></div><KittyMark small /></div>
-          <div className="robux-box">
-            <div className="robux-info"><div className="coin">R$</div><div><span>Você escolhe</span><strong>{robux.toLocaleString("pt-BR")} Robux</strong></div></div>
-            <div className="price"><small>Você paga</small><strong>R$ {price.toFixed(2).replace(".", ",")}</strong></div>
-            <input className="range" type="range" min="20" max="5000" step="10" value={robux} onChange={e => setRobux(Number(e.target.value))}/>
-            <div className="quick-values">{[20,50,100,200,400,800,1000,1700,2500,3500,5000].map(v => <button className={robux === v ? "active" : ""} key={v} onClick={() => setRobux(v)}>{v.toLocaleString("pt-BR")}</button>)}</div>
-            <div className="notice">1.000 Robux por R$ 48,00 · de 20 a 5.000 por pedido</div>
-            <button className="primary wide" onClick={() => setCart(cart + 1)}>Continuar com {robux.toLocaleString("pt-BR")} Robux</button>
+        <section id="robux" className="section">
+          <div className="section-title">
+            <span>ROBux</span>
+            <h2>ESCOLHA SEUS ROBUX</h2>
+            <p>Pacotes claros, preços visíveis e pagamento simples.</p>
           </div>
-        </section>
 
-        <section id="catalogos" className="section">
-          <div className="section-heading"><div><span className="eyebrow">CATÁLOGOS</span><h2>Escolha o seu jogo</h2></div><button className="link-btn">Ver todos <span>→</span></button></div>
-          <div className="catalog-grid">
-            {catalog.filter(([name]) => !search || name.toLowerCase().includes(search.toLowerCase())).map(([name,count,from], i) => (
-              <button className="catalog-card" key={name} onClick={() => setCart(cart + 1)}>
-                <div className={"game-icon i" + i}>{name.slice(0,1)}</div>
-                <div><strong>{name}</strong><span>{count} · {from}</span></div>
-                <ChevronDown size={18} className="arrow"/>
+          <div className="packages">
+            {packages.map((item) => (
+              <button
+                key={item.amount}
+                className={selected === item.amount ? "package selected" : "package"}
+                onClick={() => setSelected(item.amount)}
+              >
+                {item.featured && <span className="package-label">MAIS PEDIDO</span>}
+                <img src={publicRobux} alt="" />
+                <strong>{item.label}</strong>
+                <span>R$ {item.price.toFixed(2).replace(".", ",")}</span>
+                <small>SELECIONAR</small>
               </button>
             ))}
           </div>
-        </section>
 
-        <section id="avaliacoes" className="section reviews-section">
-          <div className="section-heading centered"><span className="eyebrow">AVALIAÇÕES</span><h2>O que dizem os clientes</h2><p>Uma experiência pensada para ser simples do começo ao fim.</p></div>
-          <div className="review-grid">{reviews.map(([user,text]) => <article className="review" key={user}><div className="avatar"><KittyMark small /></div><div className="stars">{Array.from({length:5}).map((_,i)=><Star key={i} size={15} fill="currentColor"/>)}</div><strong>{user}</strong><p>{text}</p></article>)}</div>
-        </section>
-
-        <section id="entregas" className="section steps-section">
-          <div className="section-heading centered"><span className="eyebrow">COMO A ENTREGA FUNCIONA</span><h2>Rápido e prático</h2></div>
-          <div className="steps">
-            {[
-              ["01","Você escolhe e paga no PIX","Escolha o produto, informe seu @ do Roblox e finalize o pagamento."],
-              ["02","A gente entrega no jogo","Gamepasses e itens são enviados para sua conta, sem pedir sua senha."],
-              ["03","Você acompanha aqui","Consulte o status do pedido e as orientações diretamente pelo site."]
-            ].map(([n,t,d]) => <div className="step" key={n}><span className="step-number">{n}</span><h3>{t}</h3><p>{d}</p></div>)}
+          <div className="selected-box">
+            <div>
+              <span>SELECIONADO</span>
+              <strong>{current?.label}</strong>
+            </div>
+            <div className="selected-price">
+              R$ {current?.price.toFixed(2).replace(".", ",")}
+            </div>
+            <button onClick={addToCart}>CONTINUAR</button>
           </div>
         </section>
 
-        <section id="faq" className="section faq-section">
-          <div className="faq-copy"><span className="eyebrow">DÚVIDAS</span><h2>Perguntas que a gente<br/>mais recebe</h2><p>Se ainda precisar de ajuda, fale com o suporte da loja.</p><button className="primary">Falar com suporte</button></div>
-          <div className="faq-list">{[
-            ["Preciso passar minha senha do Roblox?","Nunca. A compra deve funcionar sem compartilhar sua senha."],
-            ["Quanto tempo demora a entrega?","O prazo depende do produto e aparece nas informações do pedido."],
-            ["Como acompanho meu pedido?","Use a página do pedido para consultar o status e as orientações."],
-            ["E se eu errar meu @?","Avise o suporte o quanto antes, antes da entrega ser concluída."]
-          ].map(([q,a]) => <details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div>
+        <section id="comprar" className="section custom-section">
+          <div className="custom-image">
+            <img src={publicHelloKitty} alt="Hello Kitty" />
+          </div>
+          <div className="custom-content">
+            <span>QUANTIDADE PERSONALIZADA</span>
+            <h2>ESCOLHA A QUANTIDADE</h2>
+            <p>Use o controle para selecionar a quantidade de Robux que deseja.</p>
+            <div className="custom-number">{custom.toLocaleString("pt-BR")} ROBUX</div>
+            <input
+              type="range"
+              min="20"
+              max="5000"
+              step="10"
+              value={custom}
+              onChange={(event) => setCustom(Number(event.target.value))}
+            />
+            <div className="range-labels"><span>20</span><span>5.000</span></div>
+            <div className="custom-price">
+              <span>VALOR</span>
+              <strong>R$ {customPrice.toFixed(2).replace(".", ",")}</strong>
+            </div>
+            <button className="dark-button" onClick={addToCart}>COMPRAR {custom.toLocaleString("pt-BR")} ROBUX</button>
+          </div>
+        </section>
+
+        <section className="section process">
+          <div className="section-title">
+            <span>COMO FUNCIONA</span>
+            <h2>COMPRAR ROBUX É SIMPLES</h2>
+          </div>
+          <div className="process-grid">
+            <article><strong>01</strong><h3>ESCOLHA</h3><p>Selecione um pacote ou escolha uma quantidade personalizada.</p></article>
+            <article><strong>02</strong><h3>PAGUE</h3><p>Confira o pedido e siga as instruções de pagamento.</p></article>
+            <article><strong>03</strong><h3>RECEBA</h3><p>Após a confirmação, siga as instruções de entrega do pedido.</p></article>
+          </div>
+        </section>
+
+        <section id="duvidas" className="section faq">
+          <div className="section-title">
+            <span>AJUDA</span>
+            <h2>DÚVIDAS SOBRE ROBUX</h2>
+          </div>
+          <div className="faq-list">
+            <details><summary>Preciso informar minha senha?</summary><p>Não compartilhe sua senha. O processo deve usar somente os dados necessários para a entrega.</p></details>
+            <details><summary>Posso escolher qualquer quantidade?</summary><p>Sim. Na quantidade personalizada, escolha entre 20 e 5.000 Robux.</p></details>
+            <details><summary>Como acompanho o pedido?</summary><p>Use o canal de atendimento informado pela loja após a compra.</p></details>
+            <details><summary>O site é da Roblox?</summary><p>Não. A Hello Kitty Store é uma loja independente.</p></details>
+          </div>
         </section>
       </main>
 
       <footer className="footer">
-        <div className="footer-brand"><KittyMark small/><strong>Hello Kitty Store</strong><p>Uma experiência kawaii para sua loja de Roblox.</p></div>
-        <div><strong>Explorar</strong><button onClick={() => scroll("robux")}>Robux</button><button onClick={() => scroll("catalogos")}>Catálogos</button><button onClick={() => scroll("avaliacoes")}>Avaliações</button></div>
-        <div><strong>Suporte</strong><button onClick={() => scroll("faq")}>Perguntas frequentes</button><button>Meus pedidos</button><button>Fale conosco</button></div>
+        <div>
+          <strong>HELLO KITTY STORE</strong>
+          <p>Loja independente de Robux.</p>
+        </div>
+        <div>
+          <button onClick={() => scroll("robux")}>Robux</button>
+          <button onClick={() => scroll("comprar")}>Comprar</button>
+          <button onClick={() => scroll("duvidas")}>Dúvidas</button>
+        </div>
+        <div className="footer-note">
+          Hello Kitty e suas imagens são marcas e propriedades de seus respectivos titulares. Este site não declara afiliação oficial com Roblox ou Sanrio.
+        </div>
       </footer>
-      <div className="copyright">© 2026 Hello Kitty Store · Site independente, não afiliado à Roblox Corporation.</div>
     </div>
   );
 }
