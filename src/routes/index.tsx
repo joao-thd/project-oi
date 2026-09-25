@@ -3,8 +3,7 @@ import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-const publicHelloKitty = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hello_kitty.jpg";
-const publicRobux = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Robux.jpg";
+const bannerImage = "/hello-kitty-banner.jpg";
 
 const packages = [
   { amount: 400, price: 19.90, label: "400 Robux" },
@@ -67,7 +66,7 @@ function Home() {
             <button className="hero-button" onClick={() => scroll("robux")}>COMPRAR ROBUX</button>
           </div>
           <div className="hero-character">
-            <img src={publicHelloKitty} alt="Hello Kitty" />
+            <img src={bannerImage} alt="Hello Kitty Store" />
           </div>
         </section>
 
@@ -92,7 +91,7 @@ function Home() {
                 onClick={() => setSelected(item.amount)}
               >
                 {item.featured && <span className="package-label">MAIS PEDIDO</span>}
-                <img src={publicRobux} alt="" />
+                
                 <strong>{item.label}</strong>
                 <span>R$ {item.price.toFixed(2).replace(".", ",")}</span>
                 <small>SELECIONAR</small>
@@ -114,7 +113,7 @@ function Home() {
 
         <section id="comprar" className="section custom-section">
           <div className="custom-image">
-            <img src={publicHelloKitty} alt="Hello Kitty" />
+            <img src={bannerImage} alt="Hello Kitty Store" />
           </div>
           <div className="custom-content">
             <span>QUANTIDADE PERSONALIZADA</span>
