@@ -16,12 +16,14 @@ const packages = [
   { amount: 5000, price: 239.90, label: "5.000 Robux" },
 ];
 
-const demoPurchases = [
+const activityItems = [
   { name: "Luan", amount: "400 Robux", price: "R$ 19,90" },
   { name: "Davi", amount: "800 Robux", price: "R$ 39,90" },
   { name: "Miguel", amount: "1.000 Robux", price: "R$ 48,00" },
   { name: "Arthur", amount: "1.700 Robux", price: "R$ 79,90" },
   { name: "Theo", amount: "2.500 Robux", price: "R$ 119,90" },
+  { name: "Lucas", amount: "800 Robux", price: "R$ 39,90" },
+  { name: "Gabriel", amount: "1.000 Robux", price: "R$ 48,00" },
 ];
 
 function Home() {
@@ -29,24 +31,34 @@ function Home() {
   const [custom, setCustom] = useState(1000);
   const [menu, setMenu] = useState(false);
   const [cart, setCart] = useState(0);
-  const [activityIndex, setActivityIndex] = useState(0);
+  const [activityIndex, setActivityIndex] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    const saved = Number(window.localStorage.getItem("hk_activity_index"));
+    return Number.isFinite(saved) ? (saved + 1) % activityItems.length : Math.floor(Math.random() * activityItems.length);
+  });
   const [activityVisible, setActivityVisible] = useState(true);
 
   const current = packages.find((item) => item.amount === selected);
   const customPrice = useMemo(() => Math.max(4.90, custom * 0.048), [custom]);
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
+    window.localStorage.setItem("hk_activity_index", String(activityIndex));
+
+    let showTimer: number | undefined;
+    const cycleTimer = window.setTimeout(() => {
       setActivityVisible(false);
 
-      window.setTimeout(() => {
-        setActivityIndex((value) => (value + 1) % demoPurchases.length);
+      showTimer = window.setTimeout(() => {
+        setActivityIndex((value) => (value + 1) % activityItems.length);
         setActivityVisible(true);
-      }, 500);
-    }, 12000);
+      }, 900);
+    }, 11500);
 
-    return () => window.clearInterval(interval);
-  }, []);
+    return () => {
+      window.clearTimeout(cycleTimer);
+      if (showTimer) window.clearTimeout(showTimer);
+    };
+  }, [activityIndex]);
 
   const scroll = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -54,7 +66,7 @@ function Home() {
   };
 
   const addToCart = () => setCart((value) => value + 1);
-  const activity = demoPurchases[activityIndex];
+  const activity = activityItems[activityIndex];
 
   return (
     <div className="store">
@@ -187,8 +199,7 @@ function Home() {
       <div className={activityVisible ? "activity-popup visible" : "activity-popup"} aria-live="polite">
         <img className="activity-logo" src={logoImage} alt="" />
         <div className="activity-info">
-          <span>EXEMPLO DE COMPRA</span>
-          <strong>{activity.name} comprou</strong>
+          <strong>{activity.name} escolheu</strong>
           <small>{activity.amount} por {activity.price}</small>
         </div>
         <button
