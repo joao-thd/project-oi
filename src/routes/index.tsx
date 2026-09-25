@@ -199,6 +199,7 @@ function Home() {
       <div className={activityVisible ? "activity-popup visible" : "activity-popup"} aria-live="polite">
         <img className="activity-logo" src={logoImage} alt="" />
         <div className="activity-info">
+          <span>HELLO KITTY STORE</span>
           <strong>{activity.name} escolheu</strong>
           <small>{activity.amount} por {activity.price}</small>
         </div>
