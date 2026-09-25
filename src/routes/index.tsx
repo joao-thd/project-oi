@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({ component: Home });
 
 const bannerImage = "/hello-kitty-banner.jpg";
+const logoImage = "/hello-kitty-store-logo.png";
 
 const packages = [
   { amount: 400, price: 19.90, label: "400 Robux" },
@@ -36,8 +37,7 @@ function Home() {
 
       <header className="site-header">
         <button className="wordmark" onClick={() => scroll("inicio")} aria-label="Ir para o início">
-          <span>HELLO KITTY</span>
-          <small>STORE</small>
+          <img src={logoImage} alt="Hello Kitty Store" />
         </button>
 
         <button className="mobile-toggle" onClick={() => setMenu(!menu)} aria-label="Abrir menu">
@@ -65,7 +65,7 @@ function Home() {
             <p>Escolha a quantidade de Robux e faça seu pedido de forma simples.</p>
             <button className="hero-button" onClick={() => scroll("robux")}>COMPRAR ROBUX</button>
           </div>
-</section>
+        </section>
 
         <section className="pink-strip">
           <div>ROBux</div>
@@ -88,7 +88,6 @@ function Home() {
                 onClick={() => setSelected(item.amount)}
               >
                 {item.featured && <span className="package-label">MAIS PEDIDO</span>}
-                
                 <strong>{item.label}</strong>
                 <span>R$ {item.price.toFixed(2).replace(".", ",")}</span>
                 <small>SELECIONAR</small>
