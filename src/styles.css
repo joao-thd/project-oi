@@ -47,7 +47,7 @@ button { border:0; cursor:pointer; }
 }
 .hero-background {
   position:absolute; inset:0;
-  background-image:linear-gradient(90deg,rgba(255,247,250,.98) 0%,rgba(255,247,250,.86) 40%,rgba(255,220,232,.28) 72%),url('/hello-kitty-banner.jpg');
+  background-image:linear-gradient(90deg,rgba(255,247,250,.98) 0%,rgba(255,247,250,.86) 40%,rgba(255,220,232,.28) 72%),url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Hello_kitty.jpg');
   background-size:cover; background-position:center;
 }
 .hero-content { position:relative; z-index:2; max-width:570px; }
@@ -154,7 +154,7 @@ button { border:0; cursor:pointer; }
   .main-nav.open { display:flex; }
   .cart { font-size:9px; }
   .hero { min-height:610px; padding:50px 22px; }
-  .hero-background { background-image:linear-gradient(90deg,rgba(255,247,250,.96),rgba(255,247,250,.72)),url('/hello-kitty-banner.jpg'); }
+  .hero-background { background-image:linear-gradient(90deg,rgba(255,247,250,.96),rgba(255,247,250,.72)),url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Hello_kitty.jpg'); }
   .hero-character { width:75vw; height:62%; right:-10vw; opacity:.3; }
   .hero h1 { font-size:53px; letter-spacing:-2px; }
   .hero p { font-size:13px; }
