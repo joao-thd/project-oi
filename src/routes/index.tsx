@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -21,9 +21,24 @@ function Home() {
   const [custom, setCustom] = useState(1000);
   const [menu, setMenu] = useState(false);
   const [cart, setCart] = useState(0);
+  const [activityIndex, setActivityIndex] = useState(0);
+  const [activityVisible, setActivityVisible] = useState(true);
 
   const current = packages.find((item) => item.amount === selected);
   const customPrice = useMemo(() => Math.max(4.90, custom * 0.048), [custom]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActivityVisible(false);
+
+      window.setTimeout(() => {
+        setActivityIndex((value) => (value + 1) % packages.length);
+        setActivityVisible(true);
+      }, 450);
+    }, 10500);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   const scroll = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -31,6 +46,7 @@ function Home() {
   };
 
   const addToCart = () => setCart((value) => value + 1);
+  const activityPackage = packages[activityIndex];
 
   return (
     <div className="store">
@@ -159,6 +175,15 @@ function Home() {
           </div>
         </section>
       </main>
+
+      <div className={activityVisible ? "activity-popup visible" : "activity-popup"} aria-live="polite">
+        <div className="activity-dot" />
+        <div>
+          <span>DESTAQUE DA LOJA</span>
+          <strong>{activityPackage.label}</strong>
+          <small>R$ {activityPackage.price.toFixed(2).replace(".", ",")}</small>
+        </div>
+      </div>
 
       <footer className="footer">
         <div>
