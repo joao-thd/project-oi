@@ -16,6 +16,14 @@ const packages = [
   { amount: 5000, price: 239.90, label: "5.000 Robux" },
 ];
 
+const demoPurchases = [
+  { name: "Luan", amount: "400 Robux", price: "R$ 19,90" },
+  { name: "Davi", amount: "800 Robux", price: "R$ 39,90" },
+  { name: "Miguel", amount: "1.000 Robux", price: "R$ 48,00" },
+  { name: "Arthur", amount: "1.700 Robux", price: "R$ 79,90" },
+  { name: "Theo", amount: "2.500 Robux", price: "R$ 119,90" },
+];
+
 function Home() {
   const [selected, setSelected] = useState(1000);
   const [custom, setCustom] = useState(1000);
@@ -32,10 +40,10 @@ function Home() {
       setActivityVisible(false);
 
       window.setTimeout(() => {
-        setActivityIndex((value) => (value + 1) % packages.length);
+        setActivityIndex((value) => (value + 1) % demoPurchases.length);
         setActivityVisible(true);
-      }, 450);
-    }, 10500);
+      }, 500);
+    }, 12000);
 
     return () => window.clearInterval(interval);
   }, []);
@@ -46,7 +54,7 @@ function Home() {
   };
 
   const addToCart = () => setCart((value) => value + 1);
-  const activityPackage = packages[activityIndex];
+  const activity = demoPurchases[activityIndex];
 
   return (
     <div className="store">
@@ -177,12 +185,19 @@ function Home() {
       </main>
 
       <div className={activityVisible ? "activity-popup visible" : "activity-popup"} aria-live="polite">
-        <div className="activity-dot" />
-        <div>
-          <span>DESTAQUE DA LOJA</span>
-          <strong>{activityPackage.label}</strong>
-          <small>R$ {activityPackage.price.toFixed(2).replace(".", ",")}</small>
+        <img className="activity-logo" src={logoImage} alt="" />
+        <div className="activity-info">
+          <span>EXEMPLO DE COMPRA</span>
+          <strong>{activity.name} comprou</strong>
+          <small>{activity.amount} por {activity.price}</small>
         </div>
+        <button
+          className="activity-close"
+          onClick={() => setActivityVisible(false)}
+          aria-label="Fechar aviso"
+        >
+          X
+        </button>
       </div>
 
       <footer className="footer">
