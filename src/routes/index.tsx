@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({ component: Home });
 
 const bannerImage = "/hello-kitty-banner.jpg";
+const robuxBannerImage = "/hello-kitty-robux-banner.png";
 const logoImage = "/hello-kitty-store-logo.png";
 
 const packages = [
@@ -109,7 +110,7 @@ function Home() {
 
         <section id="comprar" className="section custom-section">
           <div className="custom-image">
-            <img src={bannerImage} alt="Hello Kitty Store" />
+            <img src={robuxBannerImage} alt="Hello Kitty Store Robux" />
           </div>
           <div className="custom-content">
             <span>QUANTIDADE PERSONALIZADA</span>
