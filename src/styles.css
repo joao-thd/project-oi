@@ -29,9 +29,8 @@ button { border:0; cursor:pointer; }
   display:flex; align-items:center; padding:0 5vw; gap:45px; position:sticky; top:0; z-index:30;
 }
 
-.wordmark { background:none; color:var(--black); text-align:left; padding:0; line-height:1; }
-.wordmark span { display:block; font:900 21px Nunito; letter-spacing:-.7px; }
-.wordmark small { display:block; color:var(--pink); font:800 9px Poppins; letter-spacing:4px; margin-top:5px; }
+.wordmark { background:none; color:var(--black); text-align:left; padding:0; line-height:1; display:flex; align-items:center; }
+.wordmark img { display:block; width:116px; height:58px; object-fit:contain; object-position:left center; }
 
 .main-nav { display:flex; gap:30px; flex:1; }
 .main-nav button,.cart { background:none; color:#4f4449; font-size:12px; font-weight:700; }
@@ -60,11 +59,6 @@ button { border:0; cursor:pointer; }
   letter-spacing:1px; border-radius:5px; margin-top:18px;
 }
 .hero-button:hover,.dark-button:hover { background:var(--hot); }
-.hero-character {
-  position:absolute; right:7vw; bottom:0; width:min(390px,34vw); height:88%;
-  display:flex; align-items:flex-end; justify-content:center; z-index:1; overflow:hidden; border-radius:190px 190px 0 0;
-}
-.hero-character img { width:100%; height:100%; object-fit:cover; object-position:center; mix-blend-mode:multiply; }
 
 .pink-strip {
   min-height:74px; background:var(--pink); color:#fff; display:grid; grid-template-columns:1fr 1fr 1fr;
@@ -85,7 +79,6 @@ button { border:0; cursor:pointer; }
 }
 .package:hover { transform:translateY(-4px); border-color:#ff9fbb; box-shadow:0 16px 35px #e83b6814; }
 .package.selected { border:2px solid var(--pink); padding:24px; }
-.package img { width:65px; height:65px; object-fit:contain; margin-bottom:22px; }
 .package strong { font:900 20px Nunito; }
 .package > span:not(.package-label) { color:var(--pink); font-weight:800; font-size:17px; margin-top:6px; }
 .package small { margin-top:auto; font-size:9px; font-weight:900; letter-spacing:1px; color:#7a6e73; }
@@ -142,20 +135,19 @@ button { border:0; cursor:pointer; }
 @media(max-width:900px) {
   .site-header { gap:20px; }
   .main-nav { gap:14px; }
-  .hero-character { right:0; width:43vw; opacity:.45; }
   .packages { grid-template-columns:repeat(2,1fr); }
   .custom-section { grid-template-columns:1fr; }
   .custom-image { min-height:420px; max-height:500px; }
 }
 @media(max-width:680px) {
   .site-header { height:68px; padding:0 18px; }
+  .wordmark img { width:92px; height:50px; }
   .mobile-toggle { display:block; margin-left:auto; }
   .main-nav { display:none; position:absolute; top:68px; left:0; right:0; background:#fff; padding:20px; flex-direction:column; gap:17px; border-bottom:1px solid var(--line); }
   .main-nav.open { display:flex; }
   .cart { font-size:9px; }
   .hero { min-height:610px; padding:50px 22px; }
   .hero-background { background-image:linear-gradient(90deg,rgba(255,247,250,.96),rgba(255,247,250,.72)),url('/hello-kitty-banner.jpg'); }
-  .hero-character { width:75vw; height:62%; right:-10vw; opacity:.3; }
   .hero h1 { font-size:53px; letter-spacing:-2px; }
   .hero p { font-size:13px; }
   .pink-strip { grid-template-columns:1fr; padding:17px; gap:6px; }
