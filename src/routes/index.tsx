@@ -65,10 +65,7 @@ function Home() {
             <p>Escolha a quantidade de Robux e faça seu pedido de forma simples.</p>
             <button className="hero-button" onClick={() => scroll("robux")}>COMPRAR ROBUX</button>
           </div>
-          <div className="hero-character">
-            <img src={bannerImage} alt="Hello Kitty Store" />
-          </div>
-        </section>
+</section>
 
         <section className="pink-strip">
           <div>ROBux</div>
